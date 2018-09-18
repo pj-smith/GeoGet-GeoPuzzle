@@ -12,5 +12,7 @@ My updates from https://github.com/immutability/GeoPuzzle-for-GeoGet
 
 ## Support
 
-- Any bugs about Markdown Preview please feel free to report [here][issue].
+- Any bugs about Markdown Preview please feel free to report [issue].
 - And you are welcome to fork and submit pull requests.
+
+[issue]: https://github.com/pj-smith/GeoGet-GeoPuzzle/issues
