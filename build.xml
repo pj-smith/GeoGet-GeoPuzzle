@@ -1,0 +1,70 @@
+<project name="GeoPuzzle" default="package" basedir=".">
+
+	<taskdef name="stringutil" classname="ise.antelope.tasks.StringUtilTask"/>
+
+	<property file="build.properties"/>
+
+	<property name="plugin.name"      value="GeoPuzzle"/>
+	<property name="plugin.version"   value="2.0.13"/>
+	<stringutil string="${plugin.name}" property="plugin.filename">
+		<lowercase/>
+	</stringutil>
+
+	<property name="plugin.home" value="${deploy.home}${plugin.name}/"/>
+
+	<target name="package" depends="versions" description="Package the plugin into a GIP package file">
+		<zip destfile="${plugin.filename}-${plugin.version}.gip" basedir="." includes="${plugin.name}/*" />
+	</target>
+
+	<target name="versions" description="Update the version number in the source files">
+		<!-- <buildnumber/> -->
+
+		<tstamp>
+			<format property="package.date" pattern="yyyy-MM-dd" />
+		</tstamp>
+
+		<echo message="Updating version numbers"/>
+		<echo message="${plugin.name} ${plugin.version}"/>
+		<echo message="Package date: ${package.date}"/>
+
+		<!-- Update the meta.ini file -->
+		<replaceregexp file="${plugin.name}/${plugin.name}.meta.ini" match='version=\d+\.\d+\.\d+' replace='version=${plugin.version}'></replaceregexp>
+		<replaceregexp file="${plugin.name}/${plugin.name}.meta.ini" match='datum balickovania: \d{4}-\d{2}-\d{2}' replace='datum balickovania: ${package.date}'></replaceregexp>
+
+		<!-- Update the main plugin file -->
+		<replaceregexp file="${plugin.name}/${plugin.name}.ggp.pas" match="const VERSION = '\d+\.\d+\.\d+';" replace="const VERSION = '${plugin.version}';"></replaceregexp>
+		<replaceregexp file="${plugin.name}/${plugin.name}.ggp.pas" match="Verzia: \d+\.\d+\.\d+ / \d{4}-\d{2}-\d{2}" replace="Verzia: ${plugin.version} / ${package.date}"></replaceregexp>
+	</target>
+
+	<target name="getdata" description="Downloads XML data files from geotrophy.net">
+		<get src="http://www.geotrophy.net/xml/kopecky-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/kopecky-sk-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/hrady-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/hrady-sk-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/hrady-hu-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/kostely-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/kostely-sk-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/rekordy-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/rozhledny-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/rozhledny-sk-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/jeskyne-sk-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/summits-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/tatry-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/zamky-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/pivovary-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/bazalt-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/domy-cz-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/krize-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/unesco-de-v2-v2.xml" dest="data"/>
+		<get src="http://www.geotrophy.net/xml/hrady-si-v2-v2.xml" dest="data"/>
+	</target>
+
+	<target name="deploy" description="Copy current plugin files into GeoGet's working scripts directory">
+		<fail unless="deploy.home" message="Please create a build.properties file and define the deploy.home directory."/>
+		<mkdir dir="${plugin.home}"/>
+		<copy todir="${plugin.home}">
+		  <fileset dir="${plugin.name}"/>
+		</copy>
+	</target>
+
+</project>
