@@ -2,9 +2,11 @@
 Autor: osnica / Rado
 http://tiny.cc/osnica
 
+Updates: PJSmith (GC tym PetrAJana) / Petr
+
 GeoPuzzle, http://geotrophy.net
 
-Verzia: 2.0.12 / 2016-05-24
+Verzia: 2.0.13 / 2018-07-18
 }
 
 uses simplexml;
@@ -12,7 +14,7 @@ uses simplexml;
 {$I GeoPuzzle.config.pas}
 
 // verziu needitovat rucne! je automaticky aktualizovana cez ant
-const VERSION = '2.0.12';
+const VERSION = '2.0.13';
 
 // zakladna URL pre XML subory jednotlivych puzzle
 const BASE_URL = 'http://geotrophy.net/xml/';
